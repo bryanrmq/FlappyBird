@@ -8,38 +8,36 @@
 
 #import "GameScene.h"
 
-@implementation GameScene
+@implementation GameScene {
+    SKSpriteNode* _bird;
+}
 
 -(void)didMoveToView:(SKView *)view {
-    /* Setup your scene here */
-    SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    //World
+    self.physicsWorld.gravity = CGVectorMake(0.0, -3);
     
-    myLabel.text = @"Hello, World!";
-    myLabel.fontSize = 65;
-    myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
-                                   CGRectGetMidY(self.frame));
     
-    [self addChild:myLabel];
+    //BIRD
+    _bird = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
+    
+    _bird.xScale = 0.1;
+    _bird.yScale = 0.1;
+    _bird.physicsBody.mass = 10;
+    
+    _bird.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:_bird.size.width / 2];
+    _bird.physicsBody.dynamic = YES;
+    _bird.physicsBody.restitution = 0.0f;
+    _bird.physicsBody.friction = 0.0f;
+    _bird.physicsBody.angularDamping = 0.0f;
+    _bird.physicsBody.linearDamping = 0.0f;
+    _bird.physicsBody.velocity = CGVectorMake(0.0, 10.0);
+    
+    _bird.position = CGPointMake(CGRectGetWidth(self.frame), CGRectGetMidY(self.frame));
+    [self addChild:_bird];
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    /* Called when a touch begins */
-    
-    for (UITouch *touch in touches) {
-        CGPoint location = [touch locationInNode:self];
-        
-        SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
-        
-        sprite.xScale = 0.5;
-        sprite.yScale = 0.5;
-        sprite.position = location;
-        
-        SKAction *action = [SKAction rotateByAngle:M_PI duration:1];
-        
-        [sprite runAction:[SKAction repeatActionForever:action]];
-        
-        [self addChild:sprite];
-    }
+    _bird.physicsBody.velocity = CGVectorMake(0.0, 350.0);
 }
 
 -(void)update:(CFTimeInterval)currentTime {
