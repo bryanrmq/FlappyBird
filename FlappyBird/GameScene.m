@@ -14,7 +14,7 @@
     NSTimeInterval _dt;
     CGPoint _velocity;
 }
-
+ 
 -(void)didMoveToView:(SKView *)view {
     NSLog(@"Ok");
     self.backgroundColor = [SKColor whiteColor];
