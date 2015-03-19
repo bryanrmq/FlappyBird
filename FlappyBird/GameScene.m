@@ -32,7 +32,7 @@
     _bird.physicsBody.linearDamping = 0.0f;
     _bird.physicsBody.velocity = CGVectorMake(0.0, 10.0);
     
-    _bird.position = CGPointMake(CGRectGetWidth(self.frame), CGRectGetMidY(self.frame));
+    _bird.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
     [self addChild:_bird];
 }
 
