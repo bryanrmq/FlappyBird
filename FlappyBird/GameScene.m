@@ -12,32 +12,48 @@
     SKSpriteNode* _bird;
     SKSpriteNode* _logo;
     SKSpriteNode* _tapToStart;
-    NSTimeInterval _lastUpdateTime;
-    NSTimeInterval _dt;
-    CGPoint _velocity;
+    SKTexture* _foreground;
+    SKTexture* _background;
 }
- 
+
 -(void)didMoveToView:(SKView *)view {
     self.backgroundColor = [SKColor whiteColor];
-    //We will create two background image and play it in a infinite loop. For a much more realistic view, developers can have a stack of background images
-    for (int i=0; i<2; i++)
-    {
-        SKSpriteNode *background = [SKSpriteNode spriteNodeWithImageNamed:@"background"];
-        //background.position = CGPointMake(self.size.width/2, self.size.height/2);
-        background.position = CGPointMake((i*background.size.width)+background.size.width/2, background.size.height/2);
-        //background.position = CGPointZero; //In a Mac machine makes the center of the image positioned at lower left corner. Untill and unless specified this is the default position
-        background.name =@"background";
-        [self addChild:background];
-        
-        SKSpriteNode *ground = [SKSpriteNode spriteNodeWithImageNamed:@"ground"];
-        //background.position = CGPointMake(self.size.width/2, self.size.height/2);
-        ground.position = CGPointMake((i*ground.size.width)+ground.size.width/2, ground.size.height/2);
-        //background.position = CGPointZero; //In a Mac machine makes the center of the image positioned at lower left corner. Untill and unless specified this is the default position
-        ground.name =@"ground";
-        [self addChild:ground];
 
+    //We will create two background image and play it in a infinite loop. For a much more realistic view, developers can have a stack of background images
+    // Create ground
+    
+    _foreground = [SKTexture textureWithImageNamed:@"ground"];
+    _foreground.filteringMode = SKTextureFilteringNearest;
+
+
+    _background = [SKTexture textureWithImageNamed:@"background"];
+    _background.filteringMode = SKTextureFilteringNearest;
+    
+    // Foreground
+    SKAction *moveForeGround = [SKAction moveByX:-_foreground.size.width * 2 y:0 duration:0.02 * _foreground.size.width * 2];
+    SKAction *resetMoveForeground = [SKAction moveByX:_foreground.size.width * 2 y:0 duration:0];
+    SKAction *repeatForeverForeground = [SKAction repeatActionForever:[SKAction sequence:@[moveForeGround, resetMoveForeground]]];
+    for (int i = 0; i < 2 + self.frame.size.width / (_foreground.size.width * 2) ; ++i) {
+        SKSpriteNode* fore = [SKSpriteNode spriteNodeWithTexture:_foreground];
+        fore.position = CGPointMake(i * fore.size.width, fore.size.height / 2);
+        [fore runAction:repeatForeverForeground];
+        [self addChild:fore];
+    }
+
+    // Background
+    SKAction *moveBackGround = [SKAction moveByX:-_background.size.width * 2 y:0 duration:0.1 * _background.size.width * 2 ];
+    SKAction *resetMoveBackground = [SKAction moveByX:_background.size.width * 2 y:0 duration:0];
+    SKAction *repeatForeverBackground = [SKAction repeatActionForever:[SKAction sequence:@[moveBackGround, resetMoveBackground]]];
+    for (int i = 0; i < 2 + self.frame.size.width / (_background.size.width * 2) ; ++i) {
+        SKSpriteNode* back = [SKSpriteNode spriteNodeWithTexture:_background];
+        back.position = CGPointMake(i * back.size.width, back.size.height / 2);
+        back.zPosition = -20;
+        [back runAction:repeatForeverBackground];
+        [self addChild:back];
     }
     
+
+
     //World
     self.physicsWorld.gravity = CGVectorMake(0.0, -3);
     
@@ -66,6 +82,7 @@
     _bird.physicsBody.velocity = CGVectorMake(0.0, 10.0);
     
     _bird.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+
     [self addChild:_bird];
 }
 
@@ -91,56 +108,7 @@
 }
 
 -(void)update:(CFTimeInterval)currentTime {
-    /* Called before each frame is rendered */
-    if(_lastUpdateTime)
-    {
-        _dt = currentTime - _lastUpdateTime;
-    }
-    else
-    {
-        _dt=0;
-    }
-    _lastUpdateTime = currentTime;
-    [self moveBackground];
-    [self moveForeground];
-}
 
--(void)moveBackground
-{
-    [self enumerateChildNodesWithName:@"background" usingBlock:^(SKNode *node, BOOL *stop){
-        SKSpriteNode *bg  = (SKSpriteNode *)node;
-        CGPoint bgVelocity = CGPointMake(-80.0, 0); //The speed at which the background image will move
-        CGPoint amountToMove = CGPointMultiplyScalar (bgVelocity,_dt);
-        bg.position = CGPointAdd(bg.position,amountToMove);
-        if (bg.position.x <= -bg.size.width/2)
-        {
-            bg.position = CGPointMake(bg.position.x + (bg.size.width)*2, bg.position.y);
-        }
-    }];
-}
-
--(void)moveForeground{
-    [self enumerateChildNodesWithName:@"ground" usingBlock:^(SKNode *node, BOOL *stop){
-        SKSpriteNode *bg  = (SKSpriteNode *)node;
-        CGPoint bgVelocity = CGPointMake(-160.0, 0); //The speed at which the background image will move
-        CGPoint amountToMove = CGPointMultiplyScalar (bgVelocity,_dt);
-        bg.position = CGPointAdd(bg.position,amountToMove);
-        if (bg.position.x <= -bg.size.width/2)
-        {
-            bg.position = CGPointMake(bg.position.x + (bg.size.width)*2, bg.position.y);
-        }
-    }];
-
-}
-
-CGPoint CGPointAdd(CGPoint p1, CGPoint p2)
-{
-    return CGPointMake(p1.x + p2.x, p1.y + p2.y);
-}
-
-CGPoint CGPointMultiplyScalar(CGPoint p1, CGFloat p2)
-{
-    return CGPointMake(p1.x *p2, p1.y*p2);
 }
 
 @end
