@@ -10,13 +10,14 @@
 
 @implementation GameScene {
     SKSpriteNode* _bird;
+    SKSpriteNode* _logo;
+    SKSpriteNode* _tapToStart;
     NSTimeInterval _lastUpdateTime;
     NSTimeInterval _dt;
     CGPoint _velocity;
 }
 
 -(void)didMoveToView:(SKView *)view {
-    NSLog(@"Ok");
     self.backgroundColor = [SKColor whiteColor];
     //We will create two background image and play it in a infinite loop. For a much more realistic view, developers can have a stack of background images
     for (int i=0; i<2; i++)
@@ -37,14 +38,19 @@
 
     }
     
-    
-
-    
     //World
     self.physicsWorld.gravity = CGVectorMake(0.0, -3);
     
+    ///Initialisation du "Tap to Start" & du "logo"
+    _tapToStart = [SKSpriteNode spriteNodeWithImageNamed:@"TapToStart"];
+    _tapToStart.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) - (_tapToStart.frame.size.height + 20));
+    [self addChild:_tapToStart];
     
-    //BIRD
+    _logo = [SKSpriteNode spriteNodeWithImageNamed:@"Logo"];
+    _logo.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) + (_logo.frame.size.height + 20));
+    [self addChild:_logo];
+    
+    //Initialisation du BIRD
     _bird = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
     
     _bird.xScale = 0.1;
@@ -52,7 +58,7 @@
     _bird.physicsBody.mass = 10;
     
     _bird.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:_bird.size.width / 2];
-    _bird.physicsBody.dynamic = YES;
+    _bird.physicsBody.dynamic = NO;
     _bird.physicsBody.restitution = 0.0f;
     _bird.physicsBody.friction = 0.0f;
     _bird.physicsBody.angularDamping = 0.0f;
@@ -64,9 +70,25 @@
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    //TAP POUR LANCER LE JEU
+    if(!_bird.physicsBody.dynamic) {
+        //Suppression du node pour lancer le jeu
+        [_tapToStart removeFromParent];
+        [_logo removeFromParent];
+        
+        //On réactive la dynamique du node pour l'oiseau
+        _bird.physicsBody.dynamic = YES;
+        
+        //On lui fait faire un saut au premier Tap
+        _bird.physicsBody.velocity = CGVectorMake(0.0, 350.0);
+        
+        //On sort de la fonction
+        return;
+    }
+    
+    //A partir du deuxieme tap ce code est executé.
     _bird.physicsBody.velocity = CGVectorMake(0.0, 350.0);
 }
-
 
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
