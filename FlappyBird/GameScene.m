@@ -56,6 +56,7 @@
 
     //World
     self.physicsWorld.gravity = CGVectorMake(0.0, -3);
+    self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:CGRectMake(0, _foreground.size.height, self.frame.size.width, self.frame.size.height - _foreground.size.height)];
     
     ///Initialisation du "Tap to Start" & du "logo"
     _tapToStart = [SKSpriteNode spriteNodeWithImageNamed:@"TapToStart"];
