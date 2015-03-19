@@ -8,6 +8,8 @@
 
 #import "GameScene.h"
 
+#define SPACE_BETWEEN_TOWERS 150
+
 @implementation GameScene {
     SKSpriteNode* _bird;
     SKSpriteNode* _logo;
@@ -25,21 +27,9 @@
     _foreground = [SKTexture textureWithImageNamed:@"ground"];
     _foreground.filteringMode = SKTextureFilteringNearest;
 
-
     _background = [SKTexture textureWithImageNamed:@"background"];
     _background.filteringMode = SKTextureFilteringNearest;
     
-    // Foreground
-    SKAction *moveForeGround = [SKAction moveByX:-_foreground.size.width * 2 y:0 duration:0.02 * _foreground.size.width * 2];
-    SKAction *resetMoveForeground = [SKAction moveByX:_foreground.size.width * 2 y:0 duration:0];
-    SKAction *repeatForeverForeground = [SKAction repeatActionForever:[SKAction sequence:@[moveForeGround, resetMoveForeground]]];
-    for (int i = 0; i < 2 + self.frame.size.width / (_foreground.size.width * 2) ; ++i) {
-        SKSpriteNode* fore = [SKSpriteNode spriteNodeWithTexture:_foreground];
-        fore.position = CGPointMake(i * fore.size.width, fore.size.height / 2);
-        [fore runAction:repeatForeverForeground];
-        [self addChild:fore];
-    }
-
     // Background
     SKAction *moveBackGround = [SKAction moveByX:-_background.size.width * 2 y:0 duration:0.1 * _background.size.width * 2 ];
     SKAction *resetMoveBackground = [SKAction moveByX:_background.size.width * 2 y:0 duration:0];
@@ -50,6 +40,19 @@
         back.zPosition = -20;
         [back runAction:repeatForeverBackground];
         [self addChild:back];
+    }
+    
+    [self generateTowers];
+    
+    // Foreground
+    SKAction *moveForeGround = [SKAction moveByX:-_foreground.size.width * 2 y:0 duration:0.02 * _foreground.size.width * 2];
+    SKAction *resetMoveForeground = [SKAction moveByX:_foreground.size.width * 2 y:0 duration:0];
+    SKAction *repeatForeverForeground = [SKAction repeatActionForever:[SKAction sequence:@[moveForeGround, resetMoveForeground]]];
+    for (int i = 0; i < 2 + self.frame.size.width / (_foreground.size.width * 2) ; ++i) {
+        SKSpriteNode* fore = [SKSpriteNode spriteNodeWithTexture:_foreground];
+        fore.position = CGPointMake(i * fore.size.width, fore.size.height / 2);
+        [fore runAction:repeatForeverForeground];
+        [self addChild:fore];
     }
     
 
@@ -110,6 +113,50 @@
 
 -(void)update:(CFTimeInterval)currentTime {
 
+}
+
+-(void)generateTowers {
+    NSInteger random = [self randomValueBetween:100 and:400];
+    
+    //TOWER BOTTOM
+    SKTexture* towerBottomTexture = [SKTexture textureWithImageNamed:@"BottomTower"];
+    towerBottomTexture.filteringMode = SKTextureFilteringNearest;
+    SKSpriteNode *towerBottom = [SKSpriteNode spriteNodeWithTexture:towerBottomTexture];
+    towerBottom.color = [SKColor redColor];
+    
+    towerBottom.anchorPoint = CGPointMake(0.5, 1);
+    //towerBottom.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:CGRectMake(towerBottom.position.x, towerBottom.position.y, towerBottom.size.width, towerBottom.size.height)];
+    //towerBottom.physicsBody = [SKPhysicsBody bodyWithTexture:towerBottomTexture size:CGSizeMake(towerBottom.size.width, towerBottom.size.height)];
+    towerBottom.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:towerBottom.size center:CGPointMake(towerBottom.position.x / 2, towerBottom.position.y /2)];
+
+    towerBottom.physicsBody.dynamic = NO;
+    towerBottom.position = CGPointMake(CGRectGetWidth(self.frame) / 1.3, _foreground.size.height + random);
+    
+    SKAction *moveTowerBottom = [SKAction moveByX:-_foreground.size.width * 2 y:0 duration:0.02 * (_foreground.size.width * 2)];
+    [towerBottom runAction:moveTowerBottom];
+    
+    [self addChild:towerBottom];
+    
+    
+    //TOWER TOP
+    SKTexture* towerTopTexture = [SKTexture textureWithImageNamed:@"TopTower"];
+    towerTopTexture.filteringMode = SKTextureFilteringNearest;
+    SKSpriteNode *towerTop = [SKSpriteNode spriteNodeWithTexture:towerTopTexture];
+    towerTop.color = [SKColor redColor];
+    towerTop.physicsBody = [SKPhysicsBody bodyWithTexture:towerTopTexture size:CGSizeMake(towerTopTexture.size.width, towerTopTexture.size.height)];
+    towerTop.physicsBody.dynamic = NO;
+    
+    towerTop.anchorPoint = CGPointMake(0.5, 0);
+    towerTop.position = CGPointMake(CGRectGetWidth(self.frame) / 1.3, _foreground.size.height + random + SPACE_BETWEEN_TOWERS);
+    
+    SKAction *moveTowerTop = [SKAction moveByX:-_foreground.size.width * 2 y:0 duration:0.02 * (_foreground.size.width * 2)];
+    [towerTop runAction:moveTowerTop];
+    
+    //[self addChild:towerTop];
+}
+
+- (NSInteger)randomValueBetween:(NSInteger)min and:(NSInteger)max {
+    return (NSInteger)(min + arc4random_uniform(max - min + 1));
 }
 
 @end
