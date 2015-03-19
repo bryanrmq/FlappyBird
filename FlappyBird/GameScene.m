@@ -14,8 +14,14 @@
     SKSpriteNode* _bird;
     SKSpriteNode* _logo;
     SKSpriteNode* _tapToStart;
+    
     SKTexture* _foreground;
     SKTexture* _background;
+    
+    SKSpriteNode* _towerTop;
+    SKSpriteNode* _towerBottom;
+    SKTexture* _towerBottomTexture;
+    SKTexture* _towerTopTexture;
 }
 
 -(void)didMoveToView:(SKView *)view {
@@ -119,40 +125,35 @@
     NSInteger random = [self randomValueBetween:100 and:400];
     
     //TOWER BOTTOM
-    SKTexture* towerBottomTexture = [SKTexture textureWithImageNamed:@"BottomTower"];
-    towerBottomTexture.filteringMode = SKTextureFilteringNearest;
-    SKSpriteNode *towerBottom = [SKSpriteNode spriteNodeWithTexture:towerBottomTexture];
-    towerBottom.color = [SKColor redColor];
+    _towerBottomTexture = [SKTexture textureWithImageNamed:@"BottomTower"];
+    _towerBottomTexture.filteringMode = SKTextureFilteringNearest;
+    _towerBottom = [SKSpriteNode spriteNodeWithTexture:_towerBottomTexture];
+    _towerBottom.color = [SKColor redColor];
     
-    towerBottom.anchorPoint = CGPointMake(0.5, 1);
-    //towerBottom.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:CGRectMake(towerBottom.position.x, towerBottom.position.y, towerBottom.size.width, towerBottom.size.height)];
-    //towerBottom.physicsBody = [SKPhysicsBody bodyWithTexture:towerBottomTexture size:CGSizeMake(towerBottom.size.width, towerBottom.size.height)];
-    towerBottom.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:towerBottom.size center:CGPointMake(towerBottom.position.x / 2, towerBottom.position.y /2)];
-
-    towerBottom.physicsBody.dynamic = NO;
-    towerBottom.position = CGPointMake(CGRectGetWidth(self.frame) / 1.3, _foreground.size.height + random);
+    _towerBottom.anchorPoint = CGPointMake(0.5, 1);
+    _towerBottom.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_towerBottom.size center:CGPointMake(_towerBottom.size.width * (0.5 - _towerBottom.anchorPoint.x), _towerBottom.size.height * (0.5 - _towerBottom.anchorPoint.y))];
+    _towerBottom.physicsBody.dynamic = NO;
+    _towerBottom.position = CGPointMake(CGRectGetWidth(self.frame) / 1.3, _foreground.size.height + random);
     
     SKAction *moveTowerBottom = [SKAction moveByX:-_foreground.size.width * 2 y:0 duration:0.02 * (_foreground.size.width * 2)];
-    [towerBottom runAction:moveTowerBottom];
+    [_towerBottom runAction:moveTowerBottom];
     
-    [self addChild:towerBottom];
-    
+    [self addChild:_towerBottom];
     
     //TOWER TOP
-    SKTexture* towerTopTexture = [SKTexture textureWithImageNamed:@"TopTower"];
-    towerTopTexture.filteringMode = SKTextureFilteringNearest;
-    SKSpriteNode *towerTop = [SKSpriteNode spriteNodeWithTexture:towerTopTexture];
-    towerTop.color = [SKColor redColor];
-    towerTop.physicsBody = [SKPhysicsBody bodyWithTexture:towerTopTexture size:CGSizeMake(towerTopTexture.size.width, towerTopTexture.size.height)];
-    towerTop.physicsBody.dynamic = NO;
+    _towerTopTexture = [SKTexture textureWithImageNamed:@"TopTower"];
+    _towerTopTexture.filteringMode = SKTextureFilteringNearest;
+    _towerTop = [SKSpriteNode spriteNodeWithTexture:_towerTopTexture];
     
-    towerTop.anchorPoint = CGPointMake(0.5, 0);
-    towerTop.position = CGPointMake(CGRectGetWidth(self.frame) / 1.3, _foreground.size.height + random + SPACE_BETWEEN_TOWERS);
+    _towerTop.anchorPoint = CGPointMake(0.5, 0);
+    _towerTop.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_towerTop.size center:CGPointMake(_towerTop.size.width * (0.5 - _towerTop.anchorPoint.x), _towerTop.size.height * (0.5 - _towerTop.anchorPoint.y))];
+    _towerTop.physicsBody.dynamic = NO;
+    _towerTop.position = CGPointMake(CGRectGetWidth(self.frame) / 1.3, _foreground.size.height + random + SPACE_BETWEEN_TOWERS);
     
     SKAction *moveTowerTop = [SKAction moveByX:-_foreground.size.width * 2 y:0 duration:0.02 * (_foreground.size.width * 2)];
-    [towerTop runAction:moveTowerTop];
+    [_towerTop runAction:moveTowerTop];
     
-    //[self addChild:towerTop];
+    [self addChild:_towerTop];
 }
 
 - (NSInteger)randomValueBetween:(NSInteger)min and:(NSInteger)max {
