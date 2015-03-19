@@ -13,10 +13,10 @@
 		9424D4C61AB9C0A500489816 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9424D4C51AB9C0A500489816 /* GameScene.sks */; };
 		9424D4C91AB9C0A500489816 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9424D4C81AB9C0A500489816 /* GameViewController.m */; };
 		9424D4CC1AB9C0A500489816 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9424D4CA1AB9C0A500489816 /* Main.storyboard */; };
-		9424D4CE1AB9C0A500489816 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9424D4CD1AB9C0A500489816 /* Images.xcassets */; };
 		9424D4D11AB9C0A500489816 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9424D4CF1AB9C0A500489816 /* LaunchScreen.xib */; };
 		9424D4DD1AB9C0A500489816 /* FlappyBirdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9424D4DC1AB9C0A500489816 /* FlappyBirdTests.m */; };
 		9456FBB61AB9C8F50034BF34 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 9456FBB51AB9C8F50034BF34 /* Player.m */; };
+		94B7C06D1ABACB2C003B1D27 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94B7C06C1ABACB2C003B1D27 /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,13 +41,13 @@
 		9424D4C71AB9C0A500489816 /* GameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
 		9424D4C81AB9C0A500489816 /* GameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
 		9424D4CB1AB9C0A500489816 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		9424D4CD1AB9C0A500489816 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9424D4D01AB9C0A500489816 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		9424D4D61AB9C0A500489816 /* FlappyBirdTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlappyBirdTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9424D4DB1AB9C0A500489816 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9424D4DC1AB9C0A500489816 /* FlappyBirdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlappyBirdTests.m; sourceTree = "<group>"; };
 		9456FBB41AB9C8F50034BF34 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		9456FBB51AB9C8F50034BF34 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
+		94B7C06C1ABACB2C003B1D27 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,8 +97,8 @@
 				9424D4C71AB9C0A500489816 /* GameViewController.h */,
 				9424D4C81AB9C0A500489816 /* GameViewController.m */,
 				9424D4CA1AB9C0A500489816 /* Main.storyboard */,
-				9424D4CD1AB9C0A500489816 /* Images.xcassets */,
 				9424D4CF1AB9C0A500489816 /* LaunchScreen.xib */,
+				94B7C06C1ABACB2C003B1D27 /* Images.xcassets */,
 				9424D4BB1AB9C0A500489816 /* Supporting Files */,
 				9456FBB41AB9C8F50034BF34 /* Player.h */,
 				9456FBB51AB9C8F50034BF34 /* Player.m */,
@@ -213,7 +213,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9424D4D11AB9C0A500489816 /* LaunchScreen.xib in Resources */,
-				9424D4CE1AB9C0A500489816 /* Images.xcassets in Resources */,
+				94B7C06D1ABACB2C003B1D27 /* Images.xcassets in Resources */,
 				9424D4C61AB9C0A500489816 /* GameScene.sks in Resources */,
 				9424D4CC1AB9C0A500489816 /* Main.storyboard in Resources */,
 			);

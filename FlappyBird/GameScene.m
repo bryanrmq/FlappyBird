@@ -16,7 +16,7 @@
 }
 
 -(void)didMoveToView:(SKView *)view {
-    
+    NSLog(@"Ok");
     self.backgroundColor = [SKColor whiteColor];
     //We will create two background image and play it in a infinite loop. For a much more realistic view, developers can have a stack of background images
     for (int i=0; i<2; i++)
