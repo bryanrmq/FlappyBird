@@ -89,7 +89,7 @@
     [self addChild:_tapToStart];
     
     _logo = [SKSpriteNode spriteNodeWithImageNamed:@"Logo"];
-    _logo.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+    _logo.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) + (_logo.frame.size.height + 20));
     [self addChild:_logo];
     
     //Initialisation du BIRD
