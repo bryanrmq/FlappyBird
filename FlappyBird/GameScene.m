@@ -32,13 +32,15 @@
     SKTexture* _towerTopTexture;
     SKAction*       _moveTowers;
     
+    int _currentScore;
+    
     _Bool isCollision;
 }
 
 -(void)didMoveToView:(SKView *)view {
     self.backgroundColor = [SKColor whiteColor];    //We will create two background image and play it in a infinite loop. For a much more realistic view, developers can have a stack of background images
     // Create ground
-    
+    _currentScore = 0;
     _foreground = [SKTexture textureWithImageNamed:@"ground"];
     _foreground.filteringMode = SKTextureFilteringNearest;
     
@@ -223,7 +225,7 @@
 }
 
 - (NSInteger)randomValueBetween:(NSInteger)min and:(NSInteger)max {
-    return (NSInteger)(min + arc4random_uniform(max - min + 1));
+    return (NSInteger)(min + arc4random_uniform((u_int32_t)(max - min + 1)));
 }
 
 -(void)didBeginContact:(SKPhysicsContact *)contact
@@ -233,8 +235,10 @@
     
     if(collision == (birdCategory | worldCategory) || collision == (birdCategory | towerCategory)) {
         isCollision = true;
+        [self.gameDelegate gameSceneDetectedGameOver:self];
     } else if (collision == (birdCategory | scoreCategory)) {
-        NSLog(@"Score Collision");
+        _currentScore++;
+        [self.gameDelegate gameSceneScoreUpdate:_currentScore];
     }
     /*
 //    NSLog(@"contact detected");

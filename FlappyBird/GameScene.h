@@ -7,6 +7,8 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "GameDelegate.h"
+
 typedef NS_OPTIONS(uint32_t, FAPhysicsCategory) {
     towerCategory = 0x1 << 0,
     birdCategory = 0x1  << 1,
@@ -15,5 +17,8 @@ typedef NS_OPTIONS(uint32_t, FAPhysicsCategory) {
 };
 
 @interface GameScene : SKScene <SKPhysicsContactDelegate>
+
 -(bool) collisionIsTrue;
+@property (weak) id<GameDelegate> gameDelegate;
+
 @end

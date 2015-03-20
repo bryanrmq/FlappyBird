@@ -104,6 +104,12 @@
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gameover" translatesAutoresizingMaskIntoConstraints="NO" id="80l-Tb-bKP">
                                 <rect key="frame" x="150" y="107" width="300" height="125"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wi6-UI-qVe">
+                                <rect key="frame" x="269" y="84" width="63" height="41"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="30"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qs0-QV-HZs">
                                 <rect key="frame" x="538" y="28" width="22" height="22"/>
                                 <state key="normal">
@@ -114,6 +120,8 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="cMK-PN-jSa" firstAttribute="top" secondItem="oG6-Rs-6Ht" secondAttribute="bottom" constant="8" id="16q-z2-DtO"/>
+                            <constraint firstAttribute="centerX" secondItem="wi6-UI-qVe" secondAttribute="centerX" constant="-0.5" id="7h1-En-XAZ"/>
+                            <constraint firstItem="wi6-UI-qVe" firstAttribute="top" secondItem="PCf-gQ-wO7" secondAttribute="bottom" constant="64" id="9Cr-7g-7Lu"/>
                             <constraint firstItem="Itt-kc-g7J" firstAttribute="top" secondItem="PCf-gQ-wO7" secondAttribute="bottom" id="ANX-d6-cUt"/>
                             <constraint firstAttribute="centerX" secondItem="oG6-Rs-6Ht" secondAttribute="centerX" id="BjP-w5-ZdC"/>
                             <constraint firstAttribute="centerY" secondItem="oG6-Rs-6Ht" secondAttribute="centerY" id="Ikc-kN-cH9"/>
@@ -146,6 +154,9 @@
                         <outlet property="currentScore" destination="bMl-Dz-Zbt" id="zag-Xn-EWQ"/>
                         <outlet property="highscoreLabel" destination="N22-cf-oDN" id="zkS-3A-TcW"/>
                         <outlet property="imageGameOver" destination="80l-Tb-bKP" id="wCu-N6-f1q"/>
+                        <outlet property="liveScore" destination="wi6-UI-qVe" id="v8d-8W-Nx4"/>
+                        <outlet property="playButton" destination="cMK-PN-jSa" id="FHa-z3-24H"/>
+                        <outlet property="scoreButton" destination="oWe-kH-1Qb" id="mJs-sg-s0R"/>
                         <outlet property="viewScore" destination="oG6-Rs-6Ht" id="2NC-S1-QZf"/>
                     </connections>
                 </viewController>
