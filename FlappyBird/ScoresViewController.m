@@ -24,28 +24,30 @@
     return YES;
 }
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        documentsDirectoryPath = paths.firstObject;
-        filePath = [documentsDirectoryPath stringByAppendingPathComponent:@"scores.plist"];
-        newList = [[NSMutableDictionary alloc] init];
-        
-        [self refreshTab];
-    }
+-(id) init{
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    documentsDirectoryPath = paths.firstObject;
+    filePath = [documentsDirectoryPath stringByAppendingPathComponent:@"scores.plist"];
+    newList = [[NSMutableDictionary alloc] init];
     return self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    documentsDirectoryPath = paths.firstObject;
+    filePath = [documentsDirectoryPath stringByAppendingPathComponent:@"scores.plist"];
+    newList = [[NSMutableDictionary alloc] init];
+
     [self refreshTab];
 }
 
 - (void)refreshTab {
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
     
     /// On récupère toutes les données du fichier .plist
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
@@ -55,13 +57,12 @@
         } else {
             [newList setObject:@"" forKey:@""];
         }
+        
+        [self.tableView reloadData];
     } else {
         /// Si le fichier n'existe pas, on le créé
         [[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:nil];
     }
-    
-    [self.tableView reloadData];
-
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -82,18 +83,18 @@
 }
 
 - (void) addScore:(NSUInteger)value {
+    [self refreshTab];
+    
     NSDictionary* datas = @{
                             @"score":@(value)
                             };
-    NSLog(@"Datas %@", datas);
-
+    
     /// On ajoute les nouvelles données à la suite de la liste existante
     [newList setObject:datas forKey:[NSString stringWithFormat:@"%@", @(newList.count + 1)]];
-    NSLog(@"Datas %@", datas);
-    
+    NSLog(@"myNewList %@", newList);
+
     /// Récupération des données du fichier dans un dictionnaire
     NSMutableDictionary *dataDict = [[NSMutableDictionary alloc] init];
-    NSLog(@"dataDict %@", newList);
     [dataDict setObject:newList forKey:@"scores"];
     
     /// Réécriture dans le fichier avec les nouveaux éléments
