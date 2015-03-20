@@ -9,11 +9,14 @@
 #import "GameScene.h"
 
 #define GRAVITY_X 0.0
-#define GRAVITY_Y -5.0
+#define GRAVITY_Y -10.0
+
+#define BIRD_JUMP 450
+
 #define SPACE_BETWEEN_TOWERS 150
-#define BIRD_JUMP 350
 #define TOWER_GAP_MIN 50
 #define TOWER_GAP_MAX 400
+#define TOWER_DELAY 1.15
 
 @implementation GameScene {
     SKSpriteNode*   _bird;
@@ -43,7 +46,7 @@
     _background.filteringMode = SKTextureFilteringNearest;
     
     // Background
-    SKAction *moveBackGround = [SKAction moveByX:-_background.size.width * 2 y:0 duration:0.1 * _background.size.width * 2 ];
+    SKAction *moveBackGround = [SKAction moveByX:-_background.size.width * 2 y:0 duration:0.03 * _background.size.width * 2 ];
     SKAction *resetMoveBackground = [SKAction moveByX:_background.size.width * 2 y:0 duration:0];
     SKAction *repeatForeverBackground = [SKAction repeatActionForever:[SKAction sequence:@[moveBackGround, resetMoveBackground]]];
     for (int i = 0; i < 2 + self.frame.size.width / (_background.size.width * 2) ; ++i) {
@@ -54,25 +57,8 @@
         [self addChild:back];
     }
     
-    //TOWERS
-    _towerTopTexture = [SKTexture textureWithImageNamed:@"TopTower"];
-    _towerTopTexture.filteringMode = SKTextureFilteringNearest;
-    _towerBottomTexture = [SKTexture textureWithImageNamed:@"BottomTower"];
-    _towerBottomTexture.filteringMode = SKTextureFilteringNearest;
-    
-    CGFloat moveTowersDirection = _foreground.size.width * 2;
-    SKAction* moveTowers = [SKAction moveByX:-moveTowersDirection y:0 duration:0.02 * moveTowersDirection];
-    SKAction* removeTowers = [SKAction removeFromParent];
-    _moveTowers = [SKAction sequence:@[moveTowers, removeTowers]];
-    
-    SKAction* generateTowers = [SKAction performSelector:@selector(generateTowers) onTarget:self];
-    SKAction* delay = [SKAction waitForDuration:4.0];
-    SKAction* generateAndDelay = [SKAction sequence:@[generateTowers, delay]];
-    SKAction* generateAndDelayForever = [SKAction repeatActionForever:generateAndDelay];
-    [self runAction:generateAndDelayForever];
-    
     // Foreground
-    SKAction *moveForeGround = [SKAction moveByX:-_foreground.size.width * 2 y:0 duration:0.02 * _foreground.size.width * 2];
+    SKAction *moveForeGround = [SKAction moveByX:-_foreground.size.width * 2 y:0 duration:0.005 * _foreground.size.width * 2];
     SKAction *resetMoveForeground = [SKAction moveByX:_foreground.size.width * 2 y:0 duration:0];
     SKAction *repeatForeverForeground = [SKAction repeatActionForever:[SKAction sequence:@[moveForeGround, resetMoveForeground]]];
     for (int i = 0; i < 2 + self.frame.size.width / (_foreground.size.width * 2) ; ++i) {
@@ -120,7 +106,7 @@
     _bird.physicsBody.categoryBitMask = birdCategory;
     _bird.physicsBody.contactTestBitMask = towerCategory;
     
-    _bird.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+    _bird.position = CGPointMake(self.frame.size.width / 2.5, CGRectGetMidY(self.frame));
     
     [self addChild:_bird];
 }
@@ -138,13 +124,32 @@
         //On lui fait faire un saut au premier Tap
         _bird.physicsBody.velocity = CGVectorMake(0.0, BIRD_JUMP);
         
+        
+        //TOWERS
+        _towerTopTexture = [SKTexture textureWithImageNamed:@"TopTower"];
+        _towerTopTexture.filteringMode = SKTextureFilteringNearest;
+        _towerBottomTexture = [SKTexture textureWithImageNamed:@"BottomTower"];
+        _towerBottomTexture.filteringMode = SKTextureFilteringNearest;
+        
+        CGFloat moveTowersDirection = _foreground.size.width * 2;
+        SKAction* moveTowers = [SKAction moveByX:-moveTowersDirection y:0 duration:0.005 * moveTowersDirection];
+        SKAction* removeTowers = [SKAction removeFromParent];
+        _moveTowers = [SKAction sequence:@[moveTowers, removeTowers]];
+        
+        SKAction* generateTowers = [SKAction performSelector:@selector(generateTowers) onTarget:self];
+        SKAction* delay = [SKAction waitForDuration:TOWER_DELAY];
+        SKAction* generateAndDelay = [SKAction sequence:@[generateTowers, delay]];
+        SKAction* generateAndDelayForever = [SKAction repeatActionForever:generateAndDelay];
+        [self runAction:generateAndDelayForever];
+
+        
         //On sort de la fonction
         return;
     }
     
     if(isCollision == NO){
         //A partir du deuxieme tap ce code est executé.
-        _bird.physicsBody.velocity = CGVectorMake(0.0, 350.0);
+        _bird.physicsBody.velocity = CGVectorMake(0.0, BIRD_JUMP);
     }
 }
 
@@ -190,7 +195,7 @@
     invisibleBlock.physicsBody.dynamic = NO;
     invisibleBlock.position = CGPointMake(CGRectGetWidth(self.frame) / 1.3 + towerTop.size.width / 2, towerBottom.position.y);
     
-    [towers addChild:invisibleBlock];
+    //[towers addChild:invisibleBlock];
     
     //RUN ACTION
     [towers runAction:_moveTowers];
@@ -215,6 +220,8 @@
     isCollision = true;
     _bird.physicsBody.mass = 10;
     self.scene.view.paused = NO;
+    
+    
     
     
     if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
