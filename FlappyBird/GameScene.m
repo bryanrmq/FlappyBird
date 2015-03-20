@@ -180,6 +180,19 @@
     
     [towers addChild:towerBottom];
     
+    
+    //INVISIBLE BLOCK TO INCREMENT SCORE
+    SKSpriteNode* invisibleBlock = [SKSpriteNode spriteNodeWithColor:[SKColor clearColor] size:CGSizeMake(towerBottom.size.width, SPACE_BETWEEN_TOWERS)];
+    
+    invisibleBlock.anchorPoint = CGPointMake(0, 0);
+    invisibleBlock.xScale = 1.0;
+    invisibleBlock.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:invisibleBlock.size center:CGPointMake(invisibleBlock.size.width * (0.5 - invisibleBlock.anchorPoint.x), invisibleBlock.size.height * (0.5 - invisibleBlock.anchorPoint.y))];
+    invisibleBlock.physicsBody.dynamic = NO;
+    invisibleBlock.position = CGPointMake(CGRectGetWidth(self.frame) / 1.3 + towerTop.size.width / 2, towerBottom.position.y);
+    
+    [towers addChild:invisibleBlock];
+    
+    //RUN ACTION
     [towers runAction:_moveTowers];
     
     [self addChild:towers];
