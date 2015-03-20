@@ -101,7 +101,7 @@
     
     [self.tableView reloadData];
     
-    NSLog(@"maxscore %lu", [self maxScore]);
+    //NSLog(@"maxscore %lu", [self maxScore]);
 }
 
 - (NSUInteger) maxScore {
