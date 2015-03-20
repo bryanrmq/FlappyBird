@@ -97,11 +97,15 @@
     _currentScore.text = _liveScore.text;
 }
 
-- (void) gameSceneScoreUpdate:(int)score{
-    _liveScore.hidden = NO;
-    _liveScore.text = [NSString stringWithFormat:@"%d", score];
-    ScoresViewController* scoresView = [[ScoresViewController alloc] init];
-    [scoresView addScore:(NSInteger)score];
+- (void) gameSceneScoreUpdate:(int)score save:(bool)s {
+    if(s) {
+        _liveScore.hidden = YES;
+        ScoresViewController* scoresView = [[ScoresViewController alloc] init];
+        [scoresView addScore:(NSInteger)score];
+    } else {
+        _liveScore.hidden = NO;
+        _liveScore.text = [NSString stringWithFormat:@"%d", score];
+    }
 }
 
 - (void) showElements {

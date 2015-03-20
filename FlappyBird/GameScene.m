@@ -233,17 +233,17 @@
 -(void)didBeginContact:(SKPhysicsContact *)contact
 {
     if(_moves.speed > 0) {
-        _moves.speed = 0;
-    
         uint32_t collision = (contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask);
     
         if(collision == (birdCategory | worldCategory) || collision == (birdCategory | towerCategory)) {
             isCollision = true;
+            _moves.speed = 0;
             [self.gameDelegate gameSceneDetectedGameOver:self];
-            [self.gameDelegate gameSceneScoreUpdate:_currentScore];
+            [self.gameDelegate gameSceneScoreUpdate:_currentScore save:YES];
         } else if (collision == (birdCategory | scoreCategory)) {
             _currentScore++;
         }
+        [self.gameDelegate gameSceneScoreUpdate:_currentScore save:NO];
     }
     
 }

@@ -11,6 +11,6 @@
 @protocol GameDelegate <NSObject>
 
 - (void) gameSceneDetectedGameOver:(GameScene*)self;
-- (void) gameSceneScoreUpdate:(int)score;
+- (void) gameSceneScoreUpdate:(int)score save:(bool)s;
 
 @end
