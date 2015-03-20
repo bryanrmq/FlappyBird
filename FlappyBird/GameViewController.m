@@ -8,6 +8,7 @@
 
 #import "GameViewController.h"
 #import "GameScene.h"
+#import "ScoresViewController.h"
 
 @implementation SKScene (Unarchive)
 
@@ -47,6 +48,7 @@
     // Create and configure the scene.
     scene = [GameScene unarchiveFromFile:@"GameScene"];
     scene.scaleMode = SKSceneScaleModeAspectFill;
+    scene.gameDelegate = self;
     
     if([scene collisionIsTrue]){
         self.imageGameOver.hidden = NO;
@@ -54,7 +56,7 @@
     }
     
     // Present the scene.
-    [skView presentScene:scene];
+    [skView presentScene:scene];    
 }
 
 - (BOOL)shouldAutorotate
@@ -89,4 +91,32 @@
 
 - (IBAction)buttonPause:(id)sender {
 }
+
+- (void) gameSceneDetectedGameOver:(GameScene*)gameScene {
+    [self showElements];
+    _currentScore.text = _liveScore.text;
+}
+
+- (void) gameSceneScoreUpdate:(int)score{
+    _liveScore.hidden = NO;
+    _liveScore.text = [NSString stringWithFormat:@"%d", score];
+    ScoresViewController* scoresView = [[ScoresViewController alloc] init];
+    [scoresView addScore:(NSInteger)score];
+}
+
+- (void) showElements {
+    _imageGameOver.hidden = NO;
+    _viewScore.hidden = NO;
+    _playButton.hidden = NO;
+    _scoreButton.hidden = NO;
+}
+
+- (void) hideElements {
+    _imageGameOver.hidden = YES;
+    _viewScore.hidden = YES;
+    _playButton.hidden = YES;
+    _scoreButton.hidden = YES;
+}
+
+
 @end
