@@ -9,14 +9,14 @@
 #import "GameScene.h"
 
 #define GRAVITY_X 0.0
-#define GRAVITY_Y -10.0
+#define GRAVITY_Y -13.0
 
-#define BIRD_JUMP 450
+#define BIRD_JUMP 600
 
 #define SPACE_BETWEEN_TOWERS 150
 #define TOWER_GAP_MIN 50
 #define TOWER_GAP_MAX 400
-#define TOWER_DELAY 1.2
+#define TOWER_DELAY 1.1
 
 @implementation GameScene {
     SKSpriteNode*   _bird;
@@ -26,24 +26,31 @@
     SKTexture*      _foreground;
     SKTexture*      _background;
     
-    SKSpriteNode* _towerTop;
-    SKSpriteNode* _towerBottom;
-    SKTexture* _towerBottomTexture;
-    SKTexture* _towerTopTexture;
+    SKSpriteNode*   _towerTop;
+    SKSpriteNode*   _towerBottom;
+    SKTexture*      _towerBottomTexture;
+    SKTexture*      _towerTopTexture;
     SKAction*       _moveTowers;
-    SKNode*       _moves;
+    SKNode*         _moves;
+    SKNode*         _towers;
     
     int _currentScore;
     
     _Bool isCollision;
+    _Bool _restart;
 }
 
 -(void)didMoveToView:(SKView *)view {
     self.backgroundColor = [SKColor whiteColor];    //We will create two background image and play it in a infinite loop. For a much more realistic view, developers can have a stack of background images
     // Create ground
     _currentScore = 0;
+    _restart = NO;
+    
     _moves = [SKNode node];
     [self addChild:_moves];
+    
+    _towers = [SKNode node];
+    [_moves addChild:_towers];
     
     _foreground = [SKTexture textureWithImageNamed:@"ground"];
     _foreground.filteringMode = SKTextureFilteringNearest;
@@ -121,6 +128,10 @@
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     //TAP POUR LANCER LE JEU
+    if(_restart) {
+        [self restartScene];
+    }
+    
     if(!_bird.physicsBody.dynamic) {
         //Suppression du node pour lancer le jeu
         [_tapToStart removeFromParent];
@@ -217,8 +228,7 @@
     //RUN ACTION
     [towers runAction:_moveTowers];
     
-    
-    [_moves addChild:towers];
+    [_towers addChild:towers];
 }
 
 -(void)removeTowers {
@@ -236,7 +246,8 @@
         uint32_t collision = (contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask);
     
         if(collision == (birdCategory | worldCategory) || collision == (birdCategory | towerCategory)) {
-            isCollision = true;
+            isCollision = YES;
+            _restart = YES;
             _moves.speed = 0;
             [self.gameDelegate gameSceneDetectedGameOver:self];
             [self.gameDelegate gameSceneScoreUpdate:_currentScore save:YES];
@@ -250,6 +261,24 @@
 
 -(bool) collisionIsTrue{
     return isCollision;
+}
+
+-(void) restartScene {
+    if(_restart) {
+        //RESET BIRD
+        _bird.position = CGPointMake(self.frame.size.width / 2.5, CGRectGetMidY(self.frame));
+        _bird.physicsBody.velocity = CGVectorMake(0, BIRD_JUMP);
+        
+        _currentScore = 0;
+        [self.gameDelegate gameSceneScoreUpdate:_currentScore save:NO];
+        [self.gameDelegate gameSceneHideGameOver:self];
+    
+        //REMOVE NODES DES TOWERS
+        [_towers removeAllChildren];
+        _restart = NO;
+        isCollision = NO;
+        _moves.speed = 1;
+    }
 }
 
 @end
