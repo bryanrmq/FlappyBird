@@ -31,9 +31,7 @@
 }
 
 -(void)didMoveToView:(SKView *)view {
-    self.backgroundColor = [SKColor whiteColor];
-
-    //We will create two background image and play it in a infinite loop. For a much more realistic view, developers can have a stack of background images
+    self.backgroundColor = [SKColor whiteColor];    //We will create two background image and play it in a infinite loop. For a much more realistic view, developers can have a stack of background images
     // Create ground
     
     _foreground = [SKTexture textureWithImageNamed:@"ground"];
@@ -88,6 +86,13 @@
     self.physicsWorld.gravity = CGVectorMake(GRAVITY_X, GRAVITY_Y);
     self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:CGRectMake(0, _foreground.size.height, self.frame.size.width, self.frame.size.height - _foreground.size.height)];
     
+    self.physicsBody.categoryBitMask = towerCategory;
+    self.physicsBody.contactTestBitMask = birdCategory;
+    self.physicsBody.collisionBitMask = 0;
+    self.physicsWorld.contactDelegate = self;
+
+
+    
     ///Initialisation du "Tap to Start" & du "logo"
     _tapToStart = [SKSpriteNode spriteNodeWithImageNamed:@"TapToStart"];
     _tapToStart.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) - (_tapToStart.frame.size.height + 20));
@@ -111,6 +116,9 @@
     _bird.physicsBody.angularDamping = 0.0f;
     _bird.physicsBody.linearDamping = 0.0f;
     _bird.physicsBody.velocity = CGVectorMake(0.0, 10.0);
+    
+    _bird.physicsBody.categoryBitMask = birdCategory;
+    _bird.physicsBody.contactTestBitMask = towerCategory;
     
     _bird.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
 
@@ -182,6 +190,36 @@
 
 - (NSInteger)randomValueBetween:(NSInteger)min and:(NSInteger)max {
     return (NSInteger)(min + arc4random_uniform(max - min + 1));
+}
+
+-(void)didBeginContact:(SKPhysicsContact *)contact
+{
+    NSLog(@"contact detected");
+    SKPhysicsBody *firstBody;
+    SKPhysicsBody *secondBody;
+    isCollision = true;
+    _bird.physicsBody.mass = 10;
+    self.scene.view.paused = NO;
+
+    
+    if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
+    {
+        firstBody = contact.bodyA;
+        secondBody = contact.bodyB;
+    }
+    else
+    {
+        firstBody = contact.bodyB;
+        secondBody = contact.bodyA;
+    }
+    
+    //Your first body is the block, secondbody is the player.
+    //Implement relevant code here.
+    
+}
+
+-(bool) collisionIsTrue{
+    return isCollision;
 }
 
 @end
