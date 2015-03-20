@@ -129,9 +129,6 @@
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     //TAP POUR LANCER LE JEU
-    if(_restart) {
-        [self restartScene];
-    }
     
     if(!_bird.physicsBody.dynamic) {
         //Suppression du node pour lancer le jeu

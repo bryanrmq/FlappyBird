@@ -18,6 +18,8 @@ typedef NS_OPTIONS(uint32_t, FAPhysicsCategory) {
 
 @interface GameScene : SKScene <SKPhysicsContactDelegate>
 
+-(void) restartScene;
+
 -(bool) collisionIsTrue;
 @property (weak) id<GameDelegate> gameDelegate;
 
