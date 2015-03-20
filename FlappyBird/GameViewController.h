@@ -11,4 +11,13 @@
 
 @interface GameViewController : UIViewController
 
+- (IBAction)buttonScore:(id)sender;
+- (IBAction)buttonPlay:(id)sender;
+- (IBAction)buttonPause:(id)sender;
+
+@property (weak, nonatomic) IBOutlet UIView *viewScore;
+@property (weak, nonatomic) IBOutlet UIImageView *imageGameOver;
+@property (weak, nonatomic) IBOutlet UILabel *highscoreLabel;
+@property (weak, nonatomic) IBOutlet UILabel *currentScore;
+
 @end

@@ -28,7 +28,9 @@
 
 @end
 
-@implementation GameViewController
+@implementation GameViewController{
+    GameScene *scene;
+}
 
 - (void)viewDidLoad
 {
@@ -43,8 +45,13 @@
     skView.ignoresSiblingOrder = YES;
     
     // Create and configure the scene.
-    GameScene *scene = [GameScene unarchiveFromFile:@"GameScene"];
+    scene = [GameScene unarchiveFromFile:@"GameScene"];
     scene.scaleMode = SKSceneScaleModeAspectFill;
+    
+    if([scene collisionIsTrue]){
+        self.imageGameOver.hidden = NO;
+        self.viewScore.hidden = NO;
+    }
     
     // Present the scene.
     [skView presentScene:scene];
@@ -74,4 +81,12 @@
     return YES;
 }
 
+- (IBAction)buttonScore:(id)sender {
+}
+
+- (IBAction)buttonPlay:(id)sender {
+}
+
+- (IBAction)buttonPause:(id)sender {
+}
 @end
