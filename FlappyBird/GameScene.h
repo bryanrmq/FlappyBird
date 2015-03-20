@@ -14,5 +14,5 @@ typedef NS_OPTIONS(uint32_t, FAPhysicsCategory) {
 };
 
 @interface GameScene : SKScene <SKPhysicsContactDelegate>
-
+-(bool) collisionIsTrue;
 @end

@@ -23,11 +23,13 @@
     SKTexture*      _foreground;
     SKTexture*      _background;
     
-    SKSpriteNode*   _towerTop;
-    SKSpriteNode*   _towerBottom;
-    SKTexture*      _towerBottomTexture;
-    SKTexture*      _towerTopTexture;
+    SKSpriteNode* _towerTop;
+    SKSpriteNode* _towerBottom;
+    SKTexture* _towerBottomTexture;
+    SKTexture* _towerTopTexture;
     SKAction*       _moveTowers;
+    
+    _Bool isCollision;
 }
 
 -(void)didMoveToView:(SKView *)view {
@@ -36,7 +38,7 @@
     
     _foreground = [SKTexture textureWithImageNamed:@"ground"];
     _foreground.filteringMode = SKTextureFilteringNearest;
-
+    
     _background = [SKTexture textureWithImageNamed:@"background"];
     _background.filteringMode = SKTextureFilteringNearest;
     
@@ -80,8 +82,6 @@
         [self addChild:fore];
     }
     
-
-
     //World
     self.physicsWorld.gravity = CGVectorMake(GRAVITY_X, GRAVITY_Y);
     self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:CGRectMake(0, _foreground.size.height, self.frame.size.width, self.frame.size.height - _foreground.size.height)];
@@ -90,8 +90,8 @@
     self.physicsBody.contactTestBitMask = birdCategory;
     self.physicsBody.collisionBitMask = 0;
     self.physicsWorld.contactDelegate = self;
-
-
+    
+    
     
     ///Initialisation du "Tap to Start" & du "logo"
     _tapToStart = [SKSpriteNode spriteNodeWithImageNamed:@"TapToStart"];
@@ -121,7 +121,7 @@
     _bird.physicsBody.contactTestBitMask = towerCategory;
     
     _bird.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
-
+    
     [self addChild:_bird];
 }
 
@@ -142,12 +142,14 @@
         return;
     }
     
-    //A partir du deuxieme tap ce code est executé.
-    _bird.physicsBody.velocity = CGVectorMake(0.0, BIRD_JUMP);
+    if(isCollision == NO){
+        //A partir du deuxieme tap ce code est executé.
+        _bird.physicsBody.velocity = CGVectorMake(0.0, 350.0);
+    }
 }
 
 -(void)update:(CFTimeInterval)currentTime {
-
+    
 }
 
 -(void)generateTowers {
@@ -200,7 +202,7 @@
     isCollision = true;
     _bird.physicsBody.mass = 10;
     self.scene.view.paused = NO;
-
+    
     
     if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
     {
