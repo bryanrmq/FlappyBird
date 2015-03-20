@@ -31,6 +31,7 @@
 
 @implementation GameViewController{
     GameScene *scene;
+    ScoresViewController* scoresView;
 }
 
 - (void)viewDidLoad
@@ -54,7 +55,9 @@
         self.imageGameOver.hidden = NO;
         self.viewScore.hidden = NO;
     }
-    
+    scoresView = [[ScoresViewController alloc] init];
+    [self scoreTopToShow:scoresView.maxScore];
+
     // Present the scene.
     [skView presentScene:scene];    
 }
@@ -105,15 +108,19 @@
 }
 
 - (void) gameSceneScoreUpdate:(int)score save:(bool)s {
-    if(s) {
+    if(s && score > 0) {
         _liveScore.hidden = YES;
-        ScoresViewController* scoresView = [[ScoresViewController alloc] init];
         [scoresView addScore:(NSInteger)score];
+        [self scoreTopToShow:scoresView.maxScore];
     } else {
         _liveScore.text = [NSString stringWithFormat:@"%d", score];
     }
 }
 
+
+- (void) scoreTopToShow:(NSUInteger)score{
+    _highscoreLabel.text = [NSString stringWithFormat:@"%lu", score];
+}
 
 
 - (void) showElements {

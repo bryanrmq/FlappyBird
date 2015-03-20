@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <SpriteKit/SpriteKit.h>
 #import "GameDelegate.h"
+#import "ScoreDelegate.h"
 
-@interface GameViewController : UIViewController <GameDelegate>
+@interface GameViewController : UIViewController <GameDelegate, ScoreDelegate>
 
 - (IBAction)buttonScore:(id)sender;
 - (IBAction)buttonPlay:(id)sender;
@@ -23,5 +24,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *scoreButton;
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
 @property (weak, nonatomic) IBOutlet UILabel *liveScore;
+
 
 @end

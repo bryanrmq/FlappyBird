@@ -52,6 +52,7 @@
 		94B7C07D1ABB0809003B1D27 /* ScoresViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScoresViewController.h; sourceTree = "<group>"; };
 		94B7C07E1ABB0809003B1D27 /* ScoresViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScoresViewController.m; sourceTree = "<group>"; };
 		94B8D5741ABC3A4000BBF12F /* GameDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameDelegate.h; sourceTree = "<group>"; };
+		94B8D5751ABC703C00BBF12F /* ScoreDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScoreDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +96,7 @@
 			children = (
 				9424D4BF1AB9C0A500489816 /* AppDelegate.h */,
 				9424D4C01AB9C0A500489816 /* AppDelegate.m */,
+				94B8D5751ABC703C00BBF12F /* ScoreDelegate.h */,
 				94B8D5741ABC3A4000BBF12F /* GameDelegate.h */,
 				9424D4C21AB9C0A500489816 /* GameScene.h */,
 				9424D4C31AB9C0A500489816 /* GameScene.m */,

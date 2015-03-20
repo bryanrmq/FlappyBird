@@ -100,24 +100,20 @@
     [dataDict writeToFile:filePath atomically:YES];
     
     [self.tableView reloadData];
+    
+    NSLog(@"maxscore %lu", [self maxScore]);
 }
 
-- (void) maxScore {
-    NSArray *myArray;
-    
-    myArray = [newList keysSortedByValueUsingComparator: ^(id obj1, id obj2) {
-        
-        if ([obj1 integerValue] > [obj2 integerValue]) {
-            
-            return (NSComparisonResult)NSOrderedDescending;
+- (NSUInteger) maxScore {
+    int maxValue = 0;
+    for (NSString *name in [newList allKeys]) {
+        NSDictionary *info = newList[name];
+        float value = [info[@"score"] floatValue];
+        if (value > maxValue) {
+            maxValue = value;
         }
-        if ([obj1 integerValue] < [obj2 integerValue]) {
-            
-            return (NSComparisonResult)NSOrderedAscending;
-        }
-        
-        return (NSComparisonResult)NSOrderedSame;
-    }];
+    }
+    return maxValue;
 }
 
 @end
