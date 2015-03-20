@@ -16,7 +16,7 @@
 #define SPACE_BETWEEN_TOWERS 150
 #define TOWER_GAP_MIN 50
 #define TOWER_GAP_MAX 400
-#define TOWER_DELAY 1.15
+#define TOWER_DELAY 1.2
 
 @implementation GameScene {
     SKSpriteNode*   _bird;
@@ -53,7 +53,7 @@
         SKSpriteNode* back = [SKSpriteNode spriteNodeWithTexture:_background];
         back.position = CGPointMake(i * back.size.width, back.size.height / 2);
         back.zPosition = -20;
-        [back runAction:repeatForeverBackground];
+        [back runAction:repeatForeverBackground withKey:@"background"];
         [self addChild:back];
     }
     
@@ -64,7 +64,7 @@
     for (int i = 0; i < 2 + self.frame.size.width / (_foreground.size.width * 2) ; ++i) {
         SKSpriteNode* fore = [SKSpriteNode spriteNodeWithTexture:_foreground];
         fore.position = CGPointMake(i * fore.size.width, fore.size.height / 2);
-        [fore runAction:repeatForeverForeground];
+        [fore runAction:repeatForeverForeground withKey:@"foreground"];
         [self addChild:fore];
     }
     
@@ -108,6 +108,7 @@
     //BIRD COLLISIONS
     _bird.physicsBody.categoryBitMask = birdCategory;
     _bird.physicsBody.contactTestBitMask = towerCategory | worldCategory | scoreCategory;
+    _bird.physicsBody.collisionBitMask = worldCategory | towerCategory;
     
     _bird.position = CGPointMake(self.frame.size.width / 2.5, CGRectGetMidY(self.frame));
     
@@ -143,8 +144,7 @@
         SKAction* delay = [SKAction waitForDuration:TOWER_DELAY];
         SKAction* generateAndDelay = [SKAction sequence:@[generateTowers, delay]];
         SKAction* generateAndDelayForever = [SKAction repeatActionForever:generateAndDelay];
-        [self runAction:generateAndDelayForever];
-
+        [self runAction:generateAndDelayForever withKey:@"towers"];
         
         //On sort de la fonction
         return;
@@ -201,9 +201,11 @@
     invisibleBlock.xScale = 1.0;
     invisibleBlock.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:invisibleBlock.size center:CGPointMake(invisibleBlock.size.width * (0.5 - invisibleBlock.anchorPoint.x), invisibleBlock.size.height * (0.5 - invisibleBlock.anchorPoint.y))];
     invisibleBlock.physicsBody.dynamic = NO;
+    invisibleBlock.physicsBody.density = 0.0f;
     invisibleBlock.position = CGPointMake(CGRectGetWidth(self.frame) / 1.3 + towerTop.size.width / 2, towerBottom.position.y);
     invisibleBlock.physicsBody.categoryBitMask = scoreCategory;
     invisibleBlock.physicsBody.contactTestBitMask = birdCategory;
+    invisibleBlock.physicsBody.collisionBitMask = 0;
     
     [towers addChild:invisibleBlock];
     
@@ -229,20 +231,15 @@
     uint32_t collision = (contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask);
     
     
-    if(collision == (birdCategory | worldCategory)) {
+    if(collision == (birdCategory | worldCategory) || collision == (birdCategory | towerCategory)) {
         isCollision = true;
-        NSLog(@"World Collision");
-    } else if (collision == (birdCategory | towerCategory)) {
-        NSLog(@"Tower Collision");
     } else if (collision == (birdCategory | scoreCategory)) {
         NSLog(@"Score Collision");
     }
-    
+    /*
 //    NSLog(@"contact detected");
     SKPhysicsBody *firstBody;
     SKPhysicsBody *secondBody;
-    _bird.physicsBody.mass = 10;
-    self.scene.view.paused = NO;    
     
     
     if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
@@ -255,7 +252,7 @@
         firstBody = contact.bodyB;
         secondBody = contact.bodyA;
     }
-    
+    */
     //Your first body is the block, secondbody is the player.
     //Implement relevant code here.
     
