@@ -83,7 +83,7 @@
     
     ///Initialisation du "Tap to Start" & du "logo"
     _tapToStart = [SKSpriteNode spriteNodeWithImageNamed:@"TapToStart"];
-    _tapToStart.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) - (_tapToStart.frame.size.height + 20));
+    _tapToStart.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
     [self addChild:_tapToStart];
     
     _logo = [SKSpriteNode spriteNodeWithImageNamed:@"Logo"];
