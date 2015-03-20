@@ -14,6 +14,7 @@
 - (void) gameSceneHideGameOver:(GameScene*)self;
 - (void) gameSceneScoreUpdate:(int)score save:(bool)s;
 
+@optional
 - (void) restartScene;
 
 @end

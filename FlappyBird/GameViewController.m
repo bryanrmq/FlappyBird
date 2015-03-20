@@ -31,7 +31,7 @@
 
 @implementation GameViewController{
     GameScene *scene;
-    ScoresViewController* scoresView;
+    __strong ScoresViewController* scoresView;
 }
 
 - (void)viewDidLoad

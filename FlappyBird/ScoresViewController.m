@@ -107,6 +107,7 @@
 - (NSUInteger) maxScore {
     int maxValue = 0;
     for (NSString *name in [newList allKeys]) {
+        if ([name isEqualToString:@""]) continue;
         NSDictionary *info = newList[name];
         float value = [info[@"score"] floatValue];
         if (value > maxValue) {
