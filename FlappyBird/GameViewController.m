@@ -90,6 +90,7 @@
 }
 
 - (IBAction)buttonPlay:(id)sender {
+    [scene restartScene];
 }
 
 - (IBAction)buttonPause:(id)sender {
