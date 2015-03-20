@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="LVB-YS-i5n">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="LVB-YS-i5n">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -41,11 +41,10 @@
                                             <constraint firstAttribute="height" constant="27" id="MIP-cO-SKL"/>
                                             <constraint firstAttribute="width" constant="117" id="cZm-aA-NOd"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="30"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="30"/>
                                         <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <size key="shadowOffset" width="1" height="0.0"/>
+                                        <size key="shadowOffset" width="0.0" height="0.0"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bMl-Dz-Zbt">
                                         <rect key="frame" x="64" y="29" width="117" height="27"/>
@@ -53,11 +52,10 @@
                                             <constraint firstAttribute="width" constant="117" id="J2h-ly-QNV"/>
                                             <constraint firstAttribute="height" constant="27" id="MqT-0O-X0k"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="30"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="30"/>
                                         <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <size key="shadowOffset" width="1" height="0.0"/>
+                                        <size key="shadowOffset" width="0.0" height="0.0"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
@@ -82,19 +80,9 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oWe-kH-1Qb">
-                                <rect key="frame" x="349" y="368" width="40" height="30"/>
-                                <state key="normal" title="Score">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="buttonScore:" destination="LVB-YS-i5n" eventType="touchUpInside" id="83V-PK-EIf"/>
-                                    <segue destination="uq5-mU-hZv" kind="presentation" modalTransitionStyle="flipHorizontal" id="bUt-p2-W7k"/>
-                                </connections>
-                            </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cMK-PN-jSa">
-                                <rect key="frame" x="200" y="368" width="39" height="30"/>
-                                <state key="normal" title="Jouer">
+                                <rect key="frame" x="200" y="368" width="90" height="50"/>
+                                <state key="normal" backgroundImage="Play">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -104,9 +92,9 @@
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gameover" translatesAutoresizingMaskIntoConstraints="NO" id="80l-Tb-bKP">
                                 <rect key="frame" x="150" y="107" width="300" height="125"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wi6-UI-qVe">
-                                <rect key="frame" x="269" y="84" width="63" height="41"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wi6-UI-qVe">
+                                <rect key="frame" x="287" y="84" width="28" height="55"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="40"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -115,6 +103,16 @@
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oWe-kH-1Qb">
+                                <rect key="frame" x="309" y="368" width="90" height="50"/>
+                                <state key="normal" backgroundImage="Scores">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="buttonScore:" destination="LVB-YS-i5n" eventType="touchUpInside" id="83V-PK-EIf"/>
+                                    <segue destination="uq5-mU-hZv" kind="presentation" modalTransitionStyle="flipHorizontal" id="bUt-p2-W7k"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -131,7 +129,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="Itt-kc-g7J" secondAttribute="trailing" id="V5g-Cd-US3"/>
                             <constraint firstItem="80l-Tb-bKP" firstAttribute="top" secondItem="PCf-gQ-wO7" secondAttribute="bottom" constant="87" id="XJW-VV-Dkv"/>
                             <constraint firstItem="jDV-8i-JuJ" firstAttribute="top" secondItem="80l-Tb-bKP" secondAttribute="bottom" constant="7" id="dfq-0n-mCj"/>
-                            <constraint firstItem="oG6-Rs-6Ht" firstAttribute="trailing" secondItem="oWe-kH-1Qb" secondAttribute="trailing" constant="11" id="lYP-LL-0a5"/>
+                            <constraint firstItem="oG6-Rs-6Ht" firstAttribute="trailing" secondItem="oWe-kH-1Qb" secondAttribute="trailing" constant="1" id="lYP-LL-0a5"/>
                             <constraint firstItem="Itt-kc-g7J" firstAttribute="top" secondItem="PCf-gQ-wO7" secondAttribute="bottom" id="lu7-7e-8dD"/>
                             <constraint firstAttribute="centerX" secondItem="80l-Tb-bKP" secondAttribute="centerX" id="nyV-ik-JY2"/>
                             <constraint firstItem="Itt-kc-g7J" firstAttribute="top" secondItem="PCf-gQ-wO7" secondAttribute="bottom" id="o3g-2D-a4g"/>
@@ -243,6 +241,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Play" width="90" height="50"/>
+        <image name="Scores" width="90" height="50"/>
         <image name="TabScores" width="200" height="120"/>
         <image name="gameover" width="300" height="125"/>
     </resources>

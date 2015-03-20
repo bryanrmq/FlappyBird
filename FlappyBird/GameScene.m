@@ -31,6 +31,7 @@
     SKTexture* _towerBottomTexture;
     SKTexture* _towerTopTexture;
     SKAction*       _moveTowers;
+    SKNode*       _moves;
     
     int _currentScore;
     
@@ -41,6 +42,9 @@
     self.backgroundColor = [SKColor whiteColor];    //We will create two background image and play it in a infinite loop. For a much more realistic view, developers can have a stack of background images
     // Create ground
     _currentScore = 0;
+    _moves = [SKNode node];
+    [self addChild:_moves];
+    
     _foreground = [SKTexture textureWithImageNamed:@"ground"];
     _foreground.filteringMode = SKTextureFilteringNearest;
     
@@ -56,7 +60,7 @@
         back.position = CGPointMake(i * back.size.width, back.size.height / 2);
         back.zPosition = -20;
         [back runAction:repeatForeverBackground withKey:@"background"];
-        [self addChild:back];
+        [_moves addChild:back];
     }
     
     // Foreground
@@ -67,7 +71,7 @@
         SKSpriteNode* fore = [SKSpriteNode spriteNodeWithTexture:_foreground];
         fore.position = CGPointMake(i * fore.size.width, fore.size.height / 2);
         [fore runAction:repeatForeverForeground withKey:@"foreground"];
-        [self addChild:fore];
+        [_moves addChild:fore];
     }
     
     //World
@@ -81,11 +85,9 @@
     self.physicsBody.collisionBitMask = 0;
     self.physicsWorld.contactDelegate = self;
     
-    
-    
     ///Initialisation du "Tap to Start" & du "logo"
     _tapToStart = [SKSpriteNode spriteNodeWithImageNamed:@"TapToStart"];
-    _tapToStart.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame) - (_tapToStart.frame.size.height + 20));
+    _tapToStart.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
     [self addChild:_tapToStart];
     
     _logo = [SKSpriteNode spriteNodeWithImageNamed:@"Logo"];
@@ -216,7 +218,7 @@
     [towers runAction:_moveTowers];
     
     
-    [self addChild:towers];
+    [_moves addChild:towers];
 }
 
 -(void)removeTowers {
@@ -230,35 +232,19 @@
 
 -(void)didBeginContact:(SKPhysicsContact *)contact
 {
-    uint32_t collision = (contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask);
+    if(_moves.speed > 0) {
+        _moves.speed = 0;
     
+        uint32_t collision = (contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask);
     
-    if(collision == (birdCategory | worldCategory) || collision == (birdCategory | towerCategory)) {
-        isCollision = true;
-        [self.gameDelegate gameSceneDetectedGameOver:self];
-    } else if (collision == (birdCategory | scoreCategory)) {
-        _currentScore++;
-        [self.gameDelegate gameSceneScoreUpdate:_currentScore];
+        if(collision == (birdCategory | worldCategory) || collision == (birdCategory | towerCategory)) {
+            isCollision = true;
+            [self.gameDelegate gameSceneDetectedGameOver:self];
+            [self.gameDelegate gameSceneScoreUpdate:_currentScore];
+        } else if (collision == (birdCategory | scoreCategory)) {
+            _currentScore++;
+        }
     }
-    /*
-//    NSLog(@"contact detected");
-    SKPhysicsBody *firstBody;
-    SKPhysicsBody *secondBody;
-    
-    
-    if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
-    {
-        firstBody = contact.bodyA;
-        secondBody = contact.bodyB;
-    }
-    else
-    {
-        firstBody = contact.bodyB;
-        secondBody = contact.bodyA;
-    }
-    */
-    //Your first body is the block, secondbody is the player.
-    //Implement relevant code here.
     
 }
 
