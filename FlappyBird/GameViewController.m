@@ -41,7 +41,7 @@
     SKView * skView = (SKView *)self.view;
     skView.showsFPS = NO;
     skView.showsNodeCount = NO;
-    skView.showsPhysics = YES;
+    skView.showsPhysics = NO;
     /* Sprite Kit applies additional optimizations to improve rendering performance */
     skView.ignoresSiblingOrder = YES;
     
@@ -94,15 +94,27 @@
 
 - (void) gameSceneDetectedGameOver:(GameScene*)gameScene {
     [self showElements];
+    _liveScore.hidden = YES;
     _currentScore.text = _liveScore.text;
 }
 
-- (void) gameSceneScoreUpdate:(int)score{
+- (void) gameSceneHideGameOver:(GameScene*)gameScene {
+    [self hideElements];
     _liveScore.hidden = NO;
-    _liveScore.text = [NSString stringWithFormat:@"%d", score];
-    ScoresViewController* scoresView = [[ScoresViewController alloc] init];
-    [scoresView addScore:(NSInteger)score];
+    _currentScore.text = 0;
 }
+
+- (void) gameSceneScoreUpdate:(int)score save:(bool)s {
+    if(s) {
+        _liveScore.hidden = YES;
+        ScoresViewController* scoresView = [[ScoresViewController alloc] init];
+        [scoresView addScore:(NSInteger)score];
+    } else {
+        _liveScore.text = [NSString stringWithFormat:@"%d", score];
+    }
+}
+
+
 
 - (void) showElements {
     _imageGameOver.hidden = NO;
