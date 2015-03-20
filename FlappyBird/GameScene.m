@@ -127,7 +127,10 @@
     towerBottom.anchorPoint = CGPointMake(0.5, 1);
     //towerBottom.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:CGRectMake(towerBottom.position.x, towerBottom.position.y, towerBottom.size.width, towerBottom.size.height)];
     //towerBottom.physicsBody = [SKPhysicsBody bodyWithTexture:towerBottomTexture size:CGSizeMake(towerBottom.size.width, towerBottom.size.height)];
-    towerBottom.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:towerBottom.size center:CGPointMake(towerBottom.position.x / 2, towerBottom.position.y /2)];
+    towerBottom.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:towerBottom.size center:CGPointMake(towerBottom.size.width * (0.5 - towerBottom.anchorPoint.x), towerBottom.size.height * (0.5 - towerBottom.anchorPoint.y))];
+    
+    // node.size.width * (O.5 - node.anchorpoint.x)
+    
 
     towerBottom.physicsBody.dynamic = NO;
     towerBottom.position = CGPointMake(CGRectGetWidth(self.frame) / 1.3, _foreground.size.height + random);
