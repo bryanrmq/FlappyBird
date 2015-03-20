@@ -16,7 +16,7 @@
 #define SPACE_BETWEEN_TOWERS 150
 #define TOWER_GAP_MIN 50
 #define TOWER_GAP_MAX 400
-#define TOWER_DELAY 1.1
+#define TOWER_DELAY 0.8
 
 @implementation GameScene {
     SKSpriteNode*   _bird;
@@ -71,7 +71,7 @@
     }
     
     // Foreground
-    SKAction *moveForeGround = [SKAction moveByX:-_foreground.size.width * 2 y:0 duration:0.005 * _foreground.size.width * 2];
+    SKAction *moveForeGround = [SKAction moveByX:-_foreground.size.width * 2 y:0 duration:0.003 * _foreground.size.width * 2];
     SKAction *resetMoveForeground = [SKAction moveByX:_foreground.size.width * 2 y:0 duration:0];
     SKAction *repeatForeverForeground = [SKAction repeatActionForever:[SKAction sequence:@[moveForeGround, resetMoveForeground]]];
     for (int i = 0; i < 2 + self.frame.size.width / (_foreground.size.width * 2) ; ++i) {
@@ -102,13 +102,14 @@
     [self addChild:_logo];
     
     //Initialisation du BIRD
-    _bird = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
+    _bird = [SKSpriteNode spriteNodeWithImageNamed:@"flappy"];
     
-    _bird.xScale = 0.1;
-    _bird.yScale = 0.1;
+    _bird.xScale = 0.3;
+    _bird.yScale = 0.3;
     _bird.physicsBody.mass = 50;
     
-    _bird.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:_bird.size.width / 2];
+    //_bird.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:_bird.size.width / 3];
+    _bird.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_bird.size];
     _bird.physicsBody.dynamic = NO;
     _bird.physicsBody.restitution = 0.0f;
     _bird.physicsBody.friction = 0.0f;
@@ -150,16 +151,7 @@
         _towerBottomTexture = [SKTexture textureWithImageNamed:@"BottomTower"];
         _towerBottomTexture.filteringMode = SKTextureFilteringNearest;
         
-        CGFloat moveTowersDirection = _foreground.size.width * 2;
-        SKAction* moveTowers = [SKAction moveByX:-moveTowersDirection y:0 duration:0.005 * moveTowersDirection];
-        SKAction* removeTowers = [SKAction removeFromParent];
-        _moveTowers = [SKAction sequence:@[moveTowers, removeTowers]];
-        
-        SKAction* generateTowers = [SKAction performSelector:@selector(generateTowers) onTarget:self];
-        SKAction* delay = [SKAction waitForDuration:TOWER_DELAY];
-        SKAction* generateAndDelay = [SKAction sequence:@[generateTowers, delay]];
-        SKAction* generateAndDelayForever = [SKAction repeatActionForever:generateAndDelay];
-        [self runAction:generateAndDelayForever withKey:@"towers"];
+        [self actionGenerateTowers];
         
         //On sort de la fonction
         return;
@@ -173,6 +165,19 @@
 
 -(void)update:(CFTimeInterval)currentTime {
     
+}
+
+-(void)actionGenerateTowers {
+    CGFloat moveTowersDirection = _foreground.size.width * 2;
+    SKAction* moveTowers = [SKAction moveByX:-moveTowersDirection y:0 duration:0.003 * moveTowersDirection];
+    SKAction* removeTowers = [SKAction removeFromParent];
+    _moveTowers = [SKAction sequence:@[moveTowers, removeTowers]];
+    
+    SKAction* generateTowers = [SKAction performSelector:@selector(generateTowers) onTarget:self];
+    SKAction* delay = [SKAction waitForDuration:TOWER_DELAY];
+    SKAction* generateAndDelay = [SKAction sequence:@[generateTowers, delay]];
+    SKAction* generateAndDelayForever = [SKAction repeatActionForever:generateAndDelay];
+    [self runAction:generateAndDelayForever withKey:@"towers"];
 }
 
 -(void)generateTowers {
@@ -249,6 +254,7 @@
             isCollision = YES;
             _restart = YES;
             _moves.speed = 0;
+            [self removeActionForKey:@"towers"];
             [self.gameDelegate gameSceneDetectedGameOver:self];
             [self.gameDelegate gameSceneScoreUpdate:_currentScore save:YES];
         } else if (collision == (birdCategory | scoreCategory)) {
@@ -268,10 +274,13 @@
         //RESET BIRD
         _bird.position = CGPointMake(self.frame.size.width / 2.5, CGRectGetMidY(self.frame));
         _bird.physicsBody.velocity = CGVectorMake(0, BIRD_JUMP);
+        _bird.physicsBody.angularVelocity = 0;
+        _bird.zRotation = 0;
         
         _currentScore = 0;
         [self.gameDelegate gameSceneScoreUpdate:_currentScore save:NO];
         [self.gameDelegate gameSceneHideGameOver:self];
+        [self actionGenerateTowers];
     
         //REMOVE NODES DES TOWERS
         [_towers removeAllChildren];
