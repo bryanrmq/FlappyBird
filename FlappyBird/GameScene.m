@@ -72,7 +72,9 @@
     self.physicsWorld.gravity = CGVectorMake(GRAVITY_X, GRAVITY_Y);
     self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:CGRectMake(0, _foreground.size.height, self.frame.size.width, self.frame.size.height - _foreground.size.height)];
     
-    self.physicsBody.categoryBitMask = towerCategory;
+    
+    //COLLISIONS
+    self.physicsBody.categoryBitMask = worldCategory;
     self.physicsBody.contactTestBitMask = birdCategory;
     self.physicsBody.collisionBitMask = 0;
     self.physicsWorld.contactDelegate = self;
@@ -103,8 +105,9 @@
     _bird.physicsBody.linearDamping = 0.0f;
     _bird.physicsBody.velocity = CGVectorMake(0.0, 10.0);
     
+    //BIRD COLLISIONS
     _bird.physicsBody.categoryBitMask = birdCategory;
-    _bird.physicsBody.contactTestBitMask = towerCategory;
+    _bird.physicsBody.contactTestBitMask = towerCategory | worldCategory | scoreCategory;
     
     _bird.position = CGPointMake(self.frame.size.width / 2.5, CGRectGetMidY(self.frame));
     
@@ -170,6 +173,8 @@
     towerTop.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:towerTop.size center:CGPointMake(towerTop.size.width * (0.5 - towerTop.anchorPoint.x), towerTop.size.height * (0.5 - towerTop.anchorPoint.y))];
     towerTop.physicsBody.dynamic = NO;
     towerTop.position = CGPointMake(CGRectGetWidth(self.frame) / 1.3, _foreground.size.height + random + SPACE_BETWEEN_TOWERS);
+    towerTop.physicsBody.categoryBitMask = towerCategory;
+    towerTop.physicsBody.contactTestBitMask = birdCategory;
     
     [towers addChild:towerTop];
     
@@ -183,6 +188,9 @@
     towerBottom.physicsBody.dynamic = NO;
     towerBottom.position = CGPointMake(CGRectGetWidth(self.frame) / 1.3, _foreground.size.height + random);
     
+    towerBottom.physicsBody.categoryBitMask = towerCategory;
+    towerBottom.physicsBody.contactTestBitMask = birdCategory;
+    
     [towers addChild:towerBottom];
     
     
@@ -194,11 +202,15 @@
     invisibleBlock.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:invisibleBlock.size center:CGPointMake(invisibleBlock.size.width * (0.5 - invisibleBlock.anchorPoint.x), invisibleBlock.size.height * (0.5 - invisibleBlock.anchorPoint.y))];
     invisibleBlock.physicsBody.dynamic = NO;
     invisibleBlock.position = CGPointMake(CGRectGetWidth(self.frame) / 1.3 + towerTop.size.width / 2, towerBottom.position.y);
+    invisibleBlock.physicsBody.categoryBitMask = scoreCategory;
+    invisibleBlock.physicsBody.contactTestBitMask = birdCategory;
     
-    //[towers addChild:invisibleBlock];
+    [towers addChild:invisibleBlock];
+    
     
     //RUN ACTION
     [towers runAction:_moveTowers];
+    
     
     [self addChild:towers];
 }
@@ -214,14 +226,23 @@
 
 -(void)didBeginContact:(SKPhysicsContact *)contact
 {
-    NSLog(@"contact detected");
+    uint32_t collision = (contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask);
+    
+    
+    if(collision == (birdCategory | worldCategory)) {
+        isCollision = true;
+        NSLog(@"World Collision");
+    } else if (collision == (birdCategory | towerCategory)) {
+        NSLog(@"Tower Collision");
+    } else if (collision == (birdCategory | scoreCategory)) {
+        NSLog(@"Score Collision");
+    }
+    
+//    NSLog(@"contact detected");
     SKPhysicsBody *firstBody;
     SKPhysicsBody *secondBody;
-    isCollision = true;
     _bird.physicsBody.mass = 10;
-    self.scene.view.paused = NO;
-    
-    
+    self.scene.view.paused = NO;    
     
     
     if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
