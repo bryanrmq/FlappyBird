@@ -232,7 +232,6 @@
 
 -(void)didBeginContact:(SKPhysicsContact *)contact
 {
-    
     if(_moves.speed > 0) {
         _moves.speed = 0;
     
@@ -241,9 +240,9 @@
         if(collision == (birdCategory | worldCategory) || collision == (birdCategory | towerCategory)) {
             isCollision = true;
             [self.gameDelegate gameSceneDetectedGameOver:self];
+            [self.gameDelegate gameSceneScoreUpdate:_currentScore];
         } else if (collision == (birdCategory | scoreCategory)) {
             _currentScore++;
-            [self.gameDelegate gameSceneScoreUpdate:_currentScore];
         }
     }
     
