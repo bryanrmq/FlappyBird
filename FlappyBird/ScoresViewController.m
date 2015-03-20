@@ -71,8 +71,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"default" forIndexPath:indexPath];
-    NSArray* values = [newList allValues];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@", [[values objectAtIndex:indexPath.row] valueForKey:@"score"]];
+    
+    NSDictionary* newDictionary = [newList objectForKey:[NSString stringWithFormat:@"%ld", (long)indexPath.row + 1]];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@", [newDictionary objectForKey:@"score"]];
     
     return cell;
 }
@@ -91,15 +92,14 @@
     
     /// On ajoute les nouvelles données à la suite de la liste existante
     [newList setObject:datas forKey:[NSString stringWithFormat:@"%@", @(newList.count + 1)]];
-    NSLog(@"myNewList %@", newList);
-
     /// Récupération des données du fichier dans un dictionnaire
     NSMutableDictionary *dataDict = [[NSMutableDictionary alloc] init];
     [dataDict setObject:newList forKey:@"scores"];
     
     /// Réécriture dans le fichier avec les nouveaux éléments
     [dataDict writeToFile:filePath atomically:YES];
-
+    
+    [self.tableView reloadData];
 }
 
 @end
