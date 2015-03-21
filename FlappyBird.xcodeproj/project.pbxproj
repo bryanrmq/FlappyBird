@@ -15,7 +15,6 @@
 		9424D4CC1AB9C0A500489816 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9424D4CA1AB9C0A500489816 /* Main.storyboard */; };
 		9424D4D11AB9C0A500489816 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9424D4CF1AB9C0A500489816 /* LaunchScreen.xib */; };
 		9424D4DD1AB9C0A500489816 /* FlappyBirdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9424D4DC1AB9C0A500489816 /* FlappyBirdTests.m */; };
-		9456FBB61AB9C8F50034BF34 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 9456FBB51AB9C8F50034BF34 /* Player.m */; };
 		94B7C06D1ABACB2C003B1D27 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94B7C06C1ABACB2C003B1D27 /* Images.xcassets */; };
 		94B7C07F1ABB0809003B1D27 /* ScoresViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B7C07E1ABB0809003B1D27 /* ScoresViewController.m */; };
 /* End PBXBuildFile section */
@@ -46,8 +45,6 @@
 		9424D4D61AB9C0A500489816 /* FlappyBirdTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlappyBirdTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9424D4DB1AB9C0A500489816 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9424D4DC1AB9C0A500489816 /* FlappyBirdTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlappyBirdTests.m; sourceTree = "<group>"; };
-		9456FBB41AB9C8F50034BF34 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
-		9456FBB51AB9C8F50034BF34 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		94B7C06C1ABACB2C003B1D27 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		94B7C07D1ABB0809003B1D27 /* ScoresViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScoresViewController.h; sourceTree = "<group>"; };
 		94B7C07E1ABB0809003B1D27 /* ScoresViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScoresViewController.m; sourceTree = "<group>"; };
@@ -109,8 +106,6 @@
 				94B7C07E1ABB0809003B1D27 /* ScoresViewController.m */,
 				94B7C06C1ABACB2C003B1D27 /* Images.xcassets */,
 				9424D4BB1AB9C0A500489816 /* Supporting Files */,
-				9456FBB41AB9C8F50034BF34 /* Player.h */,
-				9456FBB51AB9C8F50034BF34 /* Player.m */,
 			);
 			path = FlappyBird;
 			sourceTree = "<group>";
@@ -247,7 +242,6 @@
 				9424D4C41AB9C0A500489816 /* GameScene.m in Sources */,
 				94B7C07F1ABB0809003B1D27 /* ScoresViewController.m in Sources */,
 				9424D4BE1AB9C0A500489816 /* main.m in Sources */,
-				9456FBB61AB9C8F50034BF34 /* Player.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
